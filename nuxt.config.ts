@@ -35,7 +35,7 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxt/scripts',
-    '@primevue/nuxt-module'
+    '@primevue/nuxt-module',
   ],
 
   vite: {
@@ -62,6 +62,12 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://127.0.0.1:8000'
-    }
+    },
+    routeRules: {
+      '/login': { middleware: [] },
+      '/register': { middleware: [] },
+      '/**': { middleware: ['auth'] }
+    },
+    ssr: false // Отключаем SSR для всех страниц
   },
 })
