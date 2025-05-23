@@ -1,6 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
 import Aura from '@primeuix/themes/aura';
-import { options } from "#build/eslint.config.mjs";
 
 
 export default defineNuxtConfig({
@@ -36,6 +35,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/scripts',
     '@primevue/nuxt-module',
+    '@nuxt/ui'
   ],
 
   vite: {
@@ -54,10 +54,14 @@ export default defineNuxtConfig({
         }
       },
     },
-    autoImport: true
+    autoImport: true,
+    composables: {
+      exclude: ['useToast'], // Prevent PrimeVue useToast from auto-importing
+    },
   },
 
   css: ['~/assets/main.css', 'normalize.css/normalize.css'],
+
 
   runtimeConfig: {
     public: {

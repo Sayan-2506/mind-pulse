@@ -2,7 +2,7 @@
     <div v-if="isAuthenticated">
         <div>
             <div>
-                <div class="grid grid-cols-3 h-[60px] px-6 py-4 w-full shadow-md">
+                <div class="grid grid-cols-4 h-[60px] px-6 py-4 w-full shadow-md">
                     <div class="flex items-center justify-center">
                         <h4 class="font-semibold">
                             Dashboard
@@ -22,111 +22,21 @@
                             <span class="sr-only">Show participants</span>
                         </button>
                     </div>
-                </div>
-            </div>
-            <div>
-                <div class="grid grid-cols-3 gap-4">
-                    <div class="bg-gray-200 h-screen">
-                        <div class="flex items-center px-4 bg-[#2ED7D8] h-10 mb-4 text-white">
-                            <h4 class="font-medium">To Do</h4>
-                        </div>
-                        <div class="px-2.5 flex flex-col gap-2 ">
+                    <div class="flex items-center justify-center">
+                        <UModal class="cursor-pointer" v-model:open="toDoOpen" title="Add Task">
+                            <UButton label="Add task" color="neutral" variant="outline" />
 
-                            <div v-for="task in tasks['TO_DO']" @click="modalBtnFunc(task)"
-                                class="cursor-pointer px-5 py-4 flex flex-col justify-items-end justify-between h-24 shadow-md rounded-lg bg-white">
-                                <h4 class="text-black">{{ task.title }}</h4>
-                                <div class="flex justify-between items-center text-xs">
-                                    <span
-                                        :class="{ 'bg-red-500': task.priority === 'HIGH', 'bg-yellow-500': task.priority === 'MEDIUM', 'bg-green-500': task.priority === 'LOW' }"
-                                        class="rounded-full px-2 py-0.5 text-xs font-medium text-white">{{
-                                            task.priority }}</span>
-                                    <span class="text-gray-400">{{ task.due_date }}</span>
-                                </div>
-                            </div>
-                            <div v-focustrap v-if="toDoOpen" class="shadow-md rounded-lg bg-white">
-                                <Textarea @input="
-                                    () => {
-                                        debouncedFn()
-                                    }
-                                " autofocus v-model="newTask.title" class="create-textarea" autoResize rows="1" />
-                            </div>
-                            <div @click="toDoOpenFunc" v-else="!toDoOpen"
-                                class="px-2 py-2 cursor-pointer text-[13px] w-[146px] rounded-lg bg-white m-auto text-center">
-                                <button class="cursor-pointer rounded-full font-medium text-black">Add Task</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-gray-200 h-screen">
-                        <div class="flex items-center px-4 bg-blue-400 h-10 mb-4 text-white">
-                            <h4 class="font-medium">In Progress</h4>
-                        </div>
-                        <div class="px-2.5 flex flex-col gap-2">
-
-                            <div v-for="task in tasks['IN_PROGRESS']" @click="modalBtnFunc(task)"
-                                class="cursor-pointer px-5 py-4 flex flex-col justify-items-end justify-between h-24 shadow-md rounded-lg bg-white">
-                                <h4 class="text-black">{{ task.title }}</h4>
-                                <div class="flex justify-between items-center text-xs">
-                                    <span
-                                        :class="{ 'bg-red-500': task.priority === 'HIGH', 'bg-yellow-500': task.priority === 'MEDIUM', 'bg-green-500': task.priority === 'LOW' }"
-                                        class="rounded-full px-2 py-0.5 text-xs font-medium text-white">{{
-                                            task.priority }}</span>
-                                    <span class="text-gray-400">{{ task.due_date }}</span>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="bg-gray-200 h-screen">
-                        <div class="flex items-center px-4 bg-indigo-500 h-10 mb-4 text-white">
-                            <h4 class="font-medium">Done</h4>
-                        </div>
-                        <div class="px-2.5 flex flex-col gap-2">
-
-                            <div v-for="task in tasks['DONE']" @click="modalBtnFunc(task)"
-                                class="cursor-pointer px-5 py-4 flex flex-col justify-items-end justify-between h-24 shadow-md rounded-lg bg-white">
-                                <h4 class="text-black">{{ task.title }}</h4>
-                                <div class="flex justify-between items-center text-xs">
-                                    <span
-                                        :class="{ 'bg-red-500': task.priority === 'HIGH', 'bg-yellow-500': task.priority === 'MEDIUM', 'bg-green-500': task.priority === 'LOW' }"
-                                        class="rounded-full px-2 py-0.5 text-xs font-medium text-white">{{
-                                            task.priority }}</span>
-                                    <span class="text-gray-400">{{ task.due_date }}</span>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-                <div v-if="modalBtn"
-                    class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center min-h-screen">
-                    <div  class="p-4 w-[500px] max-h-full">
-                        <!-- Modal content -->
-                        <div class="relative rounded-lg shadow-sm bg-gray-700">
-                            <!-- Modal header -->
-                            <div class="flex items-center justify-between p-5 border-b rounded-t border-gray-600">
-                                <h3 class="text-lg font-semibold text-white">
-                                    {{ selectedTask.title }}
-                                </h3>
-                                <button @click="modalBtnFunc" type="button"
-                                    class="cursor-pointer text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white">
-                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                        fill="none" viewBox="0 0 14 14">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                    </svg>
-                                    <span class="sr-only">Close modal</span>
-                                </button>
-                            </div>
-                            <!-- Modal body -->
-                            <form class="p-5">
+                            <template #body>
                                 <div class="flex flex-col gap-4 mb-4">
+                                    <div>
+                                        <label for="title"
+                                            class="block mb-2 text-sm font-medium text-white">Title</label>
+                                        <input v-model="newTask.title" type="text" class="form-style">
+                                    </div>
                                     <div>
                                         <label for="status"
                                             class="block mb-2 text-sm font-medium text-white">Status</label>
-                                        <select v-model="selectedTask.status" id="status"
-                                            class="border text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500">
+                                        <select v-model="newTask.status" id="status" class="form-style">
                                             <option value="TO_DO">To Do</option>
                                             <option value="IN_PROGRESS">Doing</option>
                                             <option value="DONE">Done</option>
@@ -135,33 +45,133 @@
                                     <div>
                                         <label for="energy"
                                             class="block mb-2 text-sm font-medium text-white">Energy</label>
-                                        <select v-model="selectedTask.priority" id="energy"
-                                            class="border  text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500">
+                                        <select v-model="newTask.priority" id="energy" class="form-style">
                                             <option value="HIGH">High</option>
                                             <option value="MEDIUM">Medium</option>
                                             <option value="LOW">Low</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <DatePicker v-model="selectedTask.due_date" class="custom-datepicker"
-                                            inputId="over_label" showIcon iconDisplay="input" />
+                                        <DatePicker v-model="newTask.due_date" class="custom-datepicker"
+                                            inputId="over_label" showIcon iconDisplay="input" dateFormat="dd.mm.yy" />
                                     </div>
                                     <div>
-                                        <label for="description" class="block mb-2 text-sm font-medium text-white">
-                                            Description</label>
-                                        <textarea v-model="selectedTask.description" id="description" rows="4"
-                                            class="block p-2.5 w-full text-sm rounded-lg border bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                                            placeholder="Write description here"></textarea>
+                                        <label for="description"
+                                            class="block mb-2 text-sm font-medium text-white">Description</label>
+                                        <textarea v-model="newTask.description" id="description" rows="4"
+                                            class="form-style" placeholder="Write description here"></textarea>
                                     </div>
                                 </div>
-                                <button type="submit"
-                                    class="cursor-pointer text-white inline-flex items-center hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600">
-                                    Save
-                                </button>
-                            </form>
-                        </div>
+                                <UButton label="Add task" color="neutral" @click="createTask" />
+                            </template>
+                        </UModal>
                     </div>
                 </div>
+            </div>
+            <div>
+                <div class="grid grid-cols-3 gap-4 min-h-screen">
+                    <div class="bg-gray-200">
+                        <div class="flex items-center px-4 bg-[#2ED7D8] h-10 mb-4 text-white">
+                            <h4 class="font-medium">To Do</h4>
+                        </div>
+                        <div class="px-2.5 flex flex-col gap-2 ">
+
+                            <div v-for="task in tasks['TO_DO']" @click="modalBtnFunc(task)" class="task-style">
+                                <h4 class="text-black">{{ task.title }}</h4>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span :class="getPriorityClass(task.priority)"
+                                        class="rounded-full px-2 py-0.5 text-xs font-medium text-white">{{
+                                            task.priority }}</span>
+                                    <span class="text-gray-400">{{ task.due_date }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-200">
+                        <div class="flex items-center px-4 bg-blue-400 h-10 mb-4 text-white">
+                            <h4 class="font-medium">In Progress</h4>
+                        </div>
+                        <div class="px-2.5 flex flex-col gap-2">
+
+                            <div v-for="task in tasks['IN_PROGRESS']" @click="modalBtnFunc(task)" class="task-style">
+                                <h4 class="text-black">{{ task.title }}</h4>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span :class="getPriorityClass(task.priority)"
+                                        class="rounded-full px-2 py-0.5 text-xs font-medium text-white">{{
+                                            task.priority }}</span>
+                                    <span class="text-gray-400">{{ task.due_date }}</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="bg-gray-200">
+                        <div class="flex items-center px-4 bg-indigo-500 h-10 mb-4 text-white">
+                            <h4 class="font-medium">Done</h4>
+                        </div>
+                        <div class="px-2.5 flex flex-col gap-2">
+
+                            <div v-for="task in tasks['DONE']" @click="modalBtnFunc(task)" class="task-style">
+                                <h4 class="text-black">{{ task.title }}</h4>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span :class="getPriorityClass(task.priority)"
+                                        class="rounded-full px-2 py-0.5 text-xs font-medium text-white">{{
+                                            task.priority }}</span>
+                                    <span class="text-gray-400">{{ task.due_date }}</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <UModal v-model:open="modalBtn" :title="selectedTask.title" :ui="{ footer: 'justify-end' }">
+
+                    <template #body>
+                        <div class="p-5">
+                            <div class="flex flex-col gap-4 mb-4">
+                                <div>
+                                    <label for="title" class="block mb-2 text-sm font-medium text-white">Title</label>
+                                    <input v-model="selectedTask.title" type="text" class="form-style">
+                                </div>
+                                <div>
+                                    <label for="status" class="block mb-2 text-sm font-medium text-white">Status</label>
+                                    <select v-model="selectedTask.status" id="status" class="form-style">
+                                        <option value="TO_DO">To Do</option>
+                                        <option value="IN_PROGRESS">Doing</option>
+                                        <option value="DONE">Done</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="energy" class="block mb-2 text-sm font-medium text-white">Energy</label>
+                                    <select v-model="selectedTask.priority" id="energy" class="form-style">
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <DatePicker v-model="selectedTask.due_date" class="custom-datepicker" showIcon
+                                        iconDisplay="input" dateFormat="dd.mm.yy" />
+                                </div>
+                                <div>
+                                    <label for="description" class="block mb-2 text-sm font-medium text-white">
+                                        Description</label>
+                                    <textarea v-model="selectedTask.description" id="description" rows="4"
+                                        class="block p-2.5 w-full text-sm rounded-lg border bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                                        placeholder="Write description here"></textarea>
+                                </div>
+                            </div>
+                            <div class="flex justify-start gap-2">
+                                <UButton class="cursor-pointer" label="Cancel" color="neutral" variant="outline"
+                                    @click="modalBtn = false" />
+                                <UButton @click="updateTask" class="cursor-pointer" label="Save" color="neutral" />
+                            </div>
+                        </div>
+                    </template>
+                </UModal>
             </div>
         </div>
     </div>
@@ -170,14 +180,12 @@
 <script setup>
 import { refreshToken, getAccessToken, logout } from '~/utils/auth'
 import DatePicker from 'primevue/datepicker';
-import Textarea from 'primevue/textarea';
-import FocusTrap from 'primevue/focustrap';
 import { useDebounceFn } from '@vueuse/core'
-
 
 definePageMeta({
     middleware: ['auth']
 })
+
 
 const { $authFetch } = useNuxtApp()
 const profile = ref(null)
@@ -187,28 +195,36 @@ const isAuthenticated = ref(false)
 const runtimeConfig = useRuntimeConfig()
 const tasks = ref([])
 const selectedTask = ref({})
+const copySelectedTask = ref({})
 const toDoOpen = ref(false)
 
+const toast = useToast()
 
 const modalBtn = ref(false)
 
 function modalBtnFunc(task) {
     modalBtn.value = !modalBtn.value
     selectedTask.value = task
+    copySelectedTask.value = { ...task }
 }
 
-function toDoOpenFunc() {
-    toDoOpen.value = !toDoOpen.value
-}
 
-const debouncedFn = useDebounceFn(async () => {
-    await createTask()
-}, 1000)
+// const debouncedFn = useDebounceFn(async () => {
+//     await createTask()
+// }, 1000)
 
-const newTask = ref({ title: '', description: '', priority: 'MEDIUM', status: 'TO_DO' })
+
+const newTask = ref({
+    title: '',
+    description: '',
+    due_date: new Date(),
+    priority: '',
+    status: ''
+});
 
 async function createTask() {
     try {
+        toDoOpen.value = false
         const token = await getAccessToken()
         if (!token) {
             await navigateTo('/login', { redirectCode: 302 })
@@ -224,18 +240,33 @@ async function createTask() {
                 description: newTask.value.description,
                 priority: newTask.value.priority,
                 status: newTask.value.status,
-                due_date:"2025-05-20"
+                due_date: newTask.value.due_date.toISOString().split('T')[0]
             }
         })
         newTask.title = ''
-        newTask.priority = 'MEDIUM'
+        newTask.priority = ''
+        newTask.value.priority = '',
+            newTask.value.status = '',
+            newTask.due_date = new Date()
+
         await fetchTasks()
-        notification.value = { message: 'Task created!', type: 'success' }
-        setTimeout(() => notification.value = null, 3500)
+        toast.add({
+            title: 'Success!',
+            description: 'Task created!',
+            color: 'success', // Опционально: цвет тоста
+            icon: 'i-ph-check-circle-bold', // Опционально: иконка
+            duration: 1500, // Время в миллисекундах, через которое тост исчезнет
+            progress: false, // Опционально: показывать прогресс
+        });
     } catch (error) {
         console.error('index.vue: Failed to create task:', error)
-        notification.value = { message: 'Failed to create task', type: 'error' }
-        setTimeout(() => notification.value = null, 3500)
+        toast.add({
+            title: 'Error!',
+            description: 'Failed to create task',
+            color: 'error', // Опционально: цвет тоста
+            icon: 'i-lucide-circle-alert', // Опционально: иконка
+            timeout: 3000, // Время в миллисекундах, через которое тост исчезнет
+        });
     }
 }
 
@@ -288,6 +319,7 @@ async function fetchProfile() {
 }
 
 
+
 async function fetchTasks() {
     isLoading.value = true
     try {
@@ -310,27 +342,84 @@ async function fetchTasks() {
         }
     } catch (error) {
         console.error('index.vue: Failed to fetch tasks:', error)
-        notification.value = { message: 'Failed to load tasks', type: 'error' }
-        setTimeout(() => notification.value = null, 3500)
+        toast.add({
+            title: 'Error!',
+            description: 'Failed to load tasks',
+            color: 'error', // Опционально: цвет тоста
+            icon: 'i-lucide-circle-alert', // Опционально: иконка
+            timeout: 3000, // Время в миллисекундах, через которое тост исчезнет
+        });
     } finally {
         isLoading.value = false
     }
 }
 
 
+async function updateTask() {
+    const diff = {};
+    const taskId = selectedTask.value.id
+    // if (!taskId) {
+    //     console.error('index.vue: Task ID is missing');
+    //     return;
+    // }
+    for (const key in selectedTask.value) {
+        if (selectedTask.value[key] !== copySelectedTask.value[key]) {
+            diff[key] = selectedTask.value[key]
+        }
+    }
+
+    if (Object.entries(diff).length) {
+        try {
+            const token = await getAccessToken()
+            if (!token) {
+                await navigateTo('/login', { redirectCode: 302 })
+                return
+            }
+            await $authFetch(`${runtimeConfig.public.apiBase}/api/tasks/${taskId}/`, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                body: {
+                    ...diff
+                }
+            })
+            await fetchTasks() // Refresh tasks after update
+            modalBtn.value = false
+            toast.add({
+                title: 'Success!',
+                description: 'Task updated!',
+                color: 'success', // Опционально: цвет тоста
+                icon: 'i-ph-check-circle-bold', // Опционально: иконка
+                duration: 1500, // Время в миллисекундах, через которое тост исчезнет
+                progress: false, // Опционально: показывать прогресс
+            });
+        } catch (error) {
+            console.error('index.vue: Failed to update task status:', error)
+            notification.value = { message: 'Failed to update task', type: 'error' }
+            setTimeout(() => notification.value = null, 3500)
+        }
+    }
+}
+
+
+function getPriorityClass(priority) {
+    switch (priority) {
+        case 'HIGH':
+            return 'bg-red-500';
+        case 'MEDIUM':
+            return 'bg-yellow-500';
+        case 'LOW':
+            return 'bg-green-500';
+        default:
+            return '';
+    }
+}
+
+
 onMounted(async () => {
     await fetchTasks()
-    document.addEventListener('click', (event) => {
-        if (modalBtn.value) {
-            modalBtn.value = !modalBtn.value
-            console.log(modalBtn.value, 'rrr')
-        }
-    })
 })
-
-// onUnmounted(() => {
-//   document.removeEventListener('click', handleClickOutside)
-// })
 </script>
 
 <style>

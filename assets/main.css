@@ -1,1 +1,10 @@
 @import "tailwindcss";
+@import "@nuxt/ui";
+
+
+@utility form-style {
+  @apply border text-sm rounded-lg block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500
+}
+@utility task-style {
+  @apply cursor-pointer px-5 py-4 flex flex-col justify-items-end justify-between h-24 shadow-md rounded-lg bg-white
+}

@@ -1,6 +1,7 @@
 <template>
   <div class="min-h-screen bg-white text-black">
-    <NuxtPage />
+    <UApp :toaster="{ position: 'top-right' }">
+      <NuxtPage />
+    </UApp>
   </div>
 </template>
-
