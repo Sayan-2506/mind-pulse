@@ -1,10 +1,24 @@
 @import "tailwindcss";
-@import "@nuxt/ui";
+@import "@nuxt/ui"; /* если ты используешь Nuxt UI */
 
+/* Добавляем кастомные утилиты в layer utilities */
+@layer utilities {
+  /* Стили формы */
+  .form-style {
+    @apply border text-sm rounded-lg block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500;
+  }
 
-@utility form-style {
-  @apply border text-sm rounded-lg block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500
-}
-@utility task-style {
-  @apply cursor-pointer px-5 py-4 flex flex-col justify-items-end justify-between h-24 shadow-md rounded-lg bg-white
+  /* Стили задачи */
+  .task-style {
+    @apply cursor-pointer px-5 py-4 flex flex-col justify-items-end justify-between h-24 shadow-md rounded-lg bg-white;
+  }
+
+  /* Скрытие скроллбара */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE и Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
 }

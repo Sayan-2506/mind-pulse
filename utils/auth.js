@@ -50,6 +50,7 @@ export async function logout() {
   const refreshToken = useCookie('refresh_token')
   accessToken.value = null
   refreshToken.value = null
+  localStorage.removeItem('hasSeenModal')
   const router = useRouter()
   await router.push('/login')
 }

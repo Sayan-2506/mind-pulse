@@ -23,9 +23,10 @@ export default defineNuxtConfig({
       ]
     }
   },
+  
 
   components: [
-    { path: '~/components', pathPrefix: false }
+    { path: '~/components', pathPrefix: false },
   ],
 
   modules: [
@@ -35,8 +36,10 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/scripts',
     '@primevue/nuxt-module',
-    '@nuxt/ui'
+    '@nuxt/ui',
+    'nuxt-echarts',
   ],
+
 
   vite: {
     plugins: [
